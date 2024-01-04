@@ -81,7 +81,7 @@ def detect_signal(symbol, data):
             SYMBOL_OPENED = symbol+"_IS_OPENED"
             pairsOpened = redis_manager.get_value(SYMBOL_OPENED)
             if ALLOW_ONCE_TIME_ORDER == True and pairsOpened == 'True':
-                print(f"Pairs: {symbol} - Đã được mở lệnh")
+                print(f"Pairs: {symbol} - Opened Order")
                 return
             else:
                 redis_manager.hset_value(symbol, field, value)
@@ -91,6 +91,6 @@ def detect_signal(symbol, data):
             # r.hset(hash_key, 'Symbol', symbol)
             # r.hset(hash_key, 'Insertdate', datetime.now().isoformat())
         # print(last_record)
-        print(f"Pairs: {symbol} - Có tín hiệu giao dịch")
+        print(f"Pairs: {symbol} - Trading Signal")
     else:
-        print(f"Pairs: {symbol} - Không có tín hiệu giao dịch")
+        print(f"Pairs: {symbol} - No signal")
