@@ -77,6 +77,7 @@ class GetDataFromMT4:
             symbol = currency_pair['symbol']
             data = self.process_data(currency_pair)
             detect_signal(symbol, data)
+            time.sleep(2)
             # Xử lý code data ở đây
             # Hãy xử ly1 thêm code ở chỗ naày
             # print(data)
