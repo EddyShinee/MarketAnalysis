@@ -1,14 +1,16 @@
 # 1. Connect đến MT4 để lấy Token
 # 2. Lấy Token để load thông tin từ MT4
 from datetime import datetime
+
 import pandas as pd
-from Telegram.SendNotification import send_message
-from Utils.GlobalConfig import BASE_API_URL, USER, PASSWORD, HOST, PORT, API_PING, API_CONNECT, API_HISTORY_PRICE_MANY, \
-    TIME_FRAME, BARS, API_CONNECT, SYMBOLS, API_HISTORY_PRICE_MANY
-from Utils.HttpRequest import make_get_request, make_post_request
-from Algorithm.DetectSignal import detect_signal
 import time
+
+from Algorithm.DetectSignal import detect_signal
+from Utils.GlobalConfig import BASE_API_URL, USER, PASSWORD, HOST, PORT, TIME_FRAME, BARS, API_CONNECT, SYMBOLS, \
+    API_HISTORY_PRICE_MANY
+from Utils.HttpRequest import make_get_request
 from Utils.Redis import redis_manager
+
 
 class GetDataFromMT4:
     def __init__(self):
@@ -32,10 +34,10 @@ class GetDataFromMT4:
                 'host': self.host,
                 'port': self.port
             }
-            token =  make_get_request(url, params=request_params)
+            token = make_get_request(url, params=request_params)
             if not isinstance(token, str):
                 print(f"Error system: {token['message']}")
-                return 
+                return
             redis_manager.set_value('token', token)
         return token
 
@@ -53,10 +55,16 @@ class GetDataFromMT4:
             "count": BARS
         }
         print(f"Get data pairs: {self.symbols} - Time: {now}")
-        return make_get_request(url, params=request_params)
+        response = make_get_request(url, params=request_params)
+        if 'code' in response:
+            if response['code'] is not None:
+                print(f"[Error] Get data from MT4: {response}")
+                return None
+        return response
 
     @staticmethod
     def process_data(currency_pair):
+        print(currency_pair)
         symbol = currency_pair['symbol']
         # print(f"Symbol: {symbol}")
         bars = currency_pair['bars']
@@ -73,6 +81,10 @@ class GetDataFromMT4:
 
     def run(self):
         response_data = self.get_data_mt4()
+        if response_data is None:
+            time.sleep(20)
+            response_data = self.get_data_mt4()
+
         for currency_pair in response_data:
             symbol = currency_pair['symbol']
             data = self.process_data(currency_pair)
@@ -81,4 +93,3 @@ class GetDataFromMT4:
             # Xử lý code data ở đây
             # Hãy xử ly1 thêm code ở chỗ naày
             # print(data)
-

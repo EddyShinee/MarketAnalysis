@@ -1,4 +1,3 @@
-import pandas as pd
 # import mplfinance as mpf
 
 def calculate_heiken_ashi(original_df):
@@ -20,6 +19,7 @@ def calculate_heiken_ashi(original_df):
     df['HA_Low'] = df[['HA_Open', 'HA_Close', 'Low']].min(axis=1)
 
     return df
+
 
 def detect_signal_heiken_ashi(heiken_ashi_df):
     # Check if required fields exist in the DataFrame

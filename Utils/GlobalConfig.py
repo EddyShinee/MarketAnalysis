@@ -63,6 +63,7 @@ class GlobalConfig:
     def get_once_time_order(self):
         return self.config.get('DEFAULT', 'once_time_order', fallback=True)
 
+
 # Sử dụng GlobalConfig
 try:
     config = GlobalConfig()
@@ -72,7 +73,7 @@ try:
     LOG_PATH = config.get_log_path()
     API_PING = config.get_ping()
 
-    #Connect
+    # Connect
     API_CONNECT = config.get_api_connect()
     USER = config.get_user()
     PASSWORD = config.get_password()
@@ -84,7 +85,6 @@ try:
     API_HISTORY_PRICE_MANY = config.get_api_history_price_many()
     TIME_FRAME = config.get_time_frame()
     BARS = config.get_count_bar()
-
 
     # Telegram
     TELEGRAM_TOKEN = config.get_telegram_token()

@@ -1,11 +1,11 @@
-from datetime import datetime
-from Utils.Redis import redis_manager
-from Utils.GlobalConfig import BARS, ALLOW_ONCE_TIME_ORDER
 import numpy as np
 import pandas as pd
-import redis
-from Algorithm.HeikenAshi import calculate_heiken_ashi,detect_signal_heiken_ashi
-from Algorithm.Prediction.StockModelPrediction import StockModelSelector
+
+from Algorithm.HeikenAshi import calculate_heiken_ashi, detect_signal_heiken_ashi
+from Utils.GlobalConfig import BARS, ALLOW_ONCE_TIME_ORDER
+from Utils.Redis import redis_manager
+
+
 def detect_signal(symbol, data):
     # Thiết lập cửa sổ thời gian cho SMA và độ lệch chuẩn
     window = int(BARS)
@@ -78,7 +78,7 @@ def detect_signal(symbol, data):
                 value = value.isoformat()
             elif isinstance(value, (int, np.uint64)):
                 value = str(value)
-            SYMBOL_OPENED = symbol+"_IS_OPENED"
+            SYMBOL_OPENED = symbol + "_IS_OPENED"
             pairsOpened = redis_manager.get_value(SYMBOL_OPENED)
             if ALLOW_ONCE_TIME_ORDER == True and pairsOpened == 'True':
                 print(f"Pairs: {symbol} - Opened Order")
