@@ -64,7 +64,7 @@ class LoadDataFromMT4:
 
     def run(self):
         response_data = self.load_data_mt4()
-        print(response_data)
+        # print(response_data)
         if response_data is None:
             print("System Error")
             return
