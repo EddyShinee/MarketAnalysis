@@ -64,7 +64,7 @@ class GetDataFromMT4:
 
     @staticmethod
     def process_data(currency_pair):
-        # print(currency_pair)
+        print(currency_pair)
         symbol = currency_pair['symbol']
         # print(f"Symbol: {symbol}")
         bars = currency_pair['bars']
