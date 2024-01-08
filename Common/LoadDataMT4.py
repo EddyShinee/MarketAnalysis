@@ -58,13 +58,13 @@ class GetDataFromMT4:
         response = make_get_request(url, params=request_params)
         if 'code' in response:
             if response['code'] is not None:
-                print(f"[Error] Get data from MT4: {response}")
+                print(f"[Error] Get data from MT4")
                 return None
         return response
 
     @staticmethod
     def process_data(currency_pair):
-        print(currency_pair)
+        # print(currency_pair)
         symbol = currency_pair['symbol']
         # print(f"Symbol: {symbol}")
         bars = currency_pair['bars']
