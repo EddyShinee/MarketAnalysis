@@ -1,66 +1,66 @@
 import numpy as np
 import pandas as pd
 
-from Algorithm.HeikenAshi import calculate_heiken_ashi, detect_signal_heiken_ashi
-from Utils.GlobalConfig import BARS, ALLOW_ONCE_TIME_ORDER
-from Utils.Redis import redis_manager
+from Algorithm.HeikenAshi import calculate_and_detect_ha_signal
+from Algorithm.MACD import calculate_and_detect_macd_signal
+from Common.Utils.GlobalConfig import BARS, ALLOW_ONCE_TIME_ORDER
+from Common.Utils.Redis import redis_manager
 
 
 def detect_signal(symbol, data):
     # Thiết lập cửa sổ thời gian cho SMA và độ lệch chuẩn
-    window = int(BARS)
-    # Tính toán SMA cho giá đóng cửa
-    data['SMA'] = data['Close'].rolling(window=window).mean()
-    data['MA_5'] = data['Close'].rolling(window=5).mean()
-    # Tính toán MACD
-    # EMA ngắn hạn
-    data['short_ema'] = data['Close'].ewm(span=12, adjust=False).mean()
-    # EMA dài hạn
-    data['long_ema'] = data['Close'].ewm(span=26, adjust=False).mean()
-    # Tính MACD
-    data['MACD'] = data['short_ema'] - data['long_ema']
-    # Tính Signal Line
-    data['Signal_Line'] = data['MACD'].ewm(span=9, adjust=False).mean()
-
-    # features = ['Open', 'High', 'Low', 'Close', 'Volume', 'MA_5']
-    # target = 'Target'
-    # selector = StockModelSelector()
-    # selector.train_and_evaluate(data, features, target)
-    # X_new = pd.DataFrame(data)  # Tạo DataFrame mới
-    # predictions = selector.predict(X_new)
+    # window = int(BARS)
+    # # Tính toán SMA cho giá đóng cửa
+    # data['SMA'] = data['Close'].rolling(window=window).mean()
+    # data['MA_5'] = data['Close'].rolling(window=5).mean()
+    # # Tính toán MACD
+    # # EMA ngắn hạn
+    # data['short_ema'] = data['Close'].ewm(span=12, adjust=False).mean()
+    # # EMA dài hạn
+    # data['long_ema'] = data['Close'].ewm(span=26, adjust=False).mean()
+    # # Tính MACD
+    # data['MACD'] = data['short_ema'] - data['long_ema']
+    # # Tính Signal Line
+    # data['Signal_Line'] = data['MACD'].ewm(span=9, adjust=False).mean()
     #
-    # print(predictions)
-    #
-    # # Convert predictions to DataFrame if they are not already
-    # if isinstance(predictions, pd.DataFrame) and len(predictions) == len(data):
-    #     data['Target'] = predictions['Target'].values
-    # else:
-    #     print("Kích thước của dự đoán không khớp với DataFrame data.")
-    #
-    # print(data)
-    # Phần mã tiếp theo giữ nguyên
-
-    ha_df = calculate_heiken_ashi(data)
-    ha_signal = detect_signal_heiken_ashi(ha_df)
+    # # features = ['Open', 'High', 'Low', 'Close', 'Volume', 'MA_5']
+    # # target = 'Target'
+    # # selector = StockModelSelector()
+    # # selector.train_and_evaluate(data, features, target)
+    # # X_new = pd.DataFrame(data)  # Tạo DataFrame mới
+    # # predictions = selector.predict(X_new)
+    # #
+    # # print(predictions)
+    # #
+    # # # Convert predictions to DataFrame if they are not already
+    # # if isinstance(predictions, pd.DataFrame) and len(predictions) == len(data):
+    # #     data['Target'] = predictions['Target'].values
+    # # else:
+    # #     print("Kích thước của dự đoán không khớp với DataFrame data.")
+    # #
+    # # print(data)
+    # # Phần mã tiếp theo giữ nguyên
+    macd_signal = calculate_and_detect_macd_signal(data)
+    ha_signal = calculate_and_detect_ha_signal(data)
     # print(ha_data)
     pd.set_option('display.max_columns', None)
     # print(data)
     # Tạo cột tín hiệu mua
     # print( (predictions['Target'] == 1))
     # print(predictions)
+
     data['Buy_Signal'] = ((ha_signal['Signal'] == 'Buy') &
                           (ha_signal['Trend'] == 'Upward') &
                           (ha_signal['Strength'] == 'Increasing') &
-                          (data['MACD'] > data['Signal_Line']) &
-                          (data['Close'] > data['SMA']))
+                          (macd_signal['MACD'] > macd_signal['Signal_Line']) &
+                          (macd_signal['Close'] > macd_signal['SMA']))
 
     data['Sell_Signal'] = ((ha_signal['Signal'] == 'Sell') &
                            (ha_signal['Trend'] == 'Downward') &
                            (ha_signal['Strength'] == 'Increasing') &
-                           (data['MACD'] < data['Signal_Line']) &
-                           (data['Close'] < data['SMA']))
+                           (macd_signal['MACD'] < macd_signal['Signal_Line']) &
+                           (macd_signal['Close'] < macd_signal['SMA']))
 
-    # print(data)
 
     # ##############################################Step 3: Đẩy dữ liệu qua Redis##############################################
     # Nếu có tín hiệu thì đẩy qua Redis

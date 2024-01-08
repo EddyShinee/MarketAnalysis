@@ -1,8 +1,8 @@
 from datetime import datetime, time
 
 import time
+from Common.Data.LoadDataMT4 import LoadDataFromMT4
 
-from Common.LoadDataMT4 import GetDataFromMT4
 
 # run_minutes = [2, 17, 32, 47]
 run_minutes = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
@@ -20,7 +20,7 @@ def schedule_running():
             # Kiểm tra xem đã chạy hàm trong phút hiện tại hay chưa
             last_run = getattr(schedule_running, 'last_run', None)
             if last_run is None or last_run != current_minute:
-                data = GetDataFromMT4()
+                data = LoadDataFromMT4()
                 data.run()
                 # Lưu lại phút cuối cùng mà hàm đã chạy
                 setattr(schedule_running, 'last_run', current_minute)
