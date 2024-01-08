@@ -49,7 +49,6 @@ class LoadDataFromMT4:
     @staticmethod
     def process_data(currency_pair):
         symbol = currency_pair['symbol']
-        # print(f"Symbol: {symbol}")
         bars = currency_pair['bars']
         data = pd.DataFrame(bars)
         data['time'] = pd.to_datetime(data['time'])
