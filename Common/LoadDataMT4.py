@@ -82,7 +82,7 @@ class GetDataFromMT4:
     def run(self):
         response_data = self.get_data_mt4()
         if response_data is None:
-            time.sleep(20)
+            time.sleep(900)
             response_data = self.get_data_mt4()
 
         for currency_pair in response_data:
