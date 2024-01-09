@@ -9,7 +9,7 @@ def calculate_bollinger_bands(dataframe, window=7, num_std=10):
     df['STD'] = df['Close'].rolling(window=window).std()
     df['Upper_Band'] = df['Middle_Band'] + (df['STD'] * num_std)
     df['Lower_Band'] = df['Middle_Band'] - (df['STD'] * num_std)
-    return df.drop(['STD'], axis=1)  # Optionally, drop the STD column if not needed
+    return df.drop(['STD'], axis=1)
 
 
 def detect_bollinger_bands(dataframe):
@@ -27,7 +27,7 @@ def detect_bollinger_bands(dataframe):
 
     return df
 
-def calculate_and_detect_bollinger_bands(dataframe, window=20, num_std=2):
+def calculate_and_detect_bollinger_bands(dataframe, window=7, num_std=2):
     # First, calculate the Bollinger Bands
     bb_df = calculate_bollinger_bands(dataframe, window, num_std)
 
