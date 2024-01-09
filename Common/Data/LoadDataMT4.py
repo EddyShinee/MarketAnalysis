@@ -51,6 +51,8 @@ class LoadDataFromMT4:
         symbol = currency_pair['symbol']
         bars = currency_pair['bars']
         data = pd.DataFrame(bars)
+        if 'time' not in data:
+            return None
         data['time'] = pd.to_datetime(data['time'])
         data = data.rename(columns={'time': 'Datetime'})
         data = data.rename(columns={'open': 'Open'})
@@ -70,6 +72,9 @@ class LoadDataFromMT4:
         for currency_pair in response_data:
             symbol = currency_pair['symbol']
             data = self.process_data(currency_pair)
+            if data is None:
+                print(f"Re-run")
+                return
             detect_signal(symbol, data)
             # Xử lý code data ở đây
             # Hãy xử ly1 thêm code ở chỗ naày

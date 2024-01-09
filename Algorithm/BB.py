@@ -1,6 +1,6 @@
 import pandas as pd
 
-def calculate_bollinger_bands(dataframe, window=20, num_std=2):
+def calculate_bollinger_bands(dataframe, window=7, num_std=10):
     if 'Close' not in dataframe.columns:
         raise ValueError("DataFrame must contain 'Close' column")
 

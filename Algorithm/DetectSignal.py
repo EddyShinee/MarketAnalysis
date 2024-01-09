@@ -14,7 +14,9 @@ def detect_signal(symbol, data):
     bb_signal = calculate_and_detect_bollinger_bands(data)
 
     pd.set_option('display.max_columns', None)
-
+    print(ha_signal['Signal'])
+    print(bb_signal['Signal'])
+    print(macd_signal['Signal'])
     data['Buy_Signal'] = ((ha_signal['Signal'] == 'Buy') &
                           (ha_signal['Trend'] == 'Upward') &
                           (ha_signal['Strength'] == 'Increasing') &
