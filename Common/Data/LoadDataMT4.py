@@ -73,7 +73,7 @@ class LoadDataFromMT4:
             symbol = currency_pair['symbol']
             data = self.process_data(currency_pair)
             if data is None:
-                print(f"Re-run")
+                print(f"Re-run...")
                 return
             detect_signal(symbol, data)
             # Xử lý code data ở đây
