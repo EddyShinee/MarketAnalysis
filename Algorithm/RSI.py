@@ -52,7 +52,7 @@ def detect_rsi_signals(dataframe, overbought_threshold=70, oversold_threshold=30
     return df
 
 
-def calculate_and_detect_rsi(dataframe, window=7, overbought_threshold=65, oversold_threshold=35):
+def calculate_and_detect_rsi(dataframe, window=14, overbought_threshold=70, oversold_threshold=30):
     """
     Calculate RSI and detect trading signals based on RSI.
 
