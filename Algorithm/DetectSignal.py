@@ -12,7 +12,7 @@ from Common.Utils.Redis import redis_manager
 def detect_signal(symbol, data):
     macd_signal = calculate_and_detect_macd_signal(data)
     ha_signal = calculate_and_detect_ha_signal(data)
-    bb_signal = calculate_and_detect_bollinger_bands(data)
+    # bb_signal = calculate_and_detect_bollinger_bands(data)
     rsi_signal = calculate_and_detect_rsi(data)
 
 
@@ -26,7 +26,7 @@ def detect_signal(symbol, data):
     detect['HA_Trend'] = ha_signal['Trend']
     detect['HA_Strength'] = ha_signal['Strength']
     detect['MACD_Signal'] = macd_signal['Signal']
-    detect['BB_Signal'] = bb_signal['Signal']
+    # detect['BB_Signal'] = bb_signal['Signal']
     detect['RSI_Signal'] = rsi_signal['Signal']
     print(detect)
 
@@ -35,14 +35,14 @@ def detect_signal(symbol, data):
                           (ha_signal['Trend'] == 'Upward') &
                           (ha_signal['Strength'] == 'Changing') &
                           (macd_signal['Signal'] == 'Buy') &
-                          (bb_signal['Signal'] == 'Buy') &
+                          # (bb_signal['Signal'] == 'Buy') &
                           (rsi_signal['Signal'] == 'Buy'))
 
     data['Sell_Signal'] = ((ha_signal['Signal'] == 'Sell') &
                            (ha_signal['Trend'] == 'Downward') &
                            (ha_signal['Strength'] == 'Changing') &
                            (macd_signal['Signal'] == 'Sell') &
-                           (bb_signal['Signal'] == 'Sell') &
+                           # (bb_signal['Signal'] == 'Sell') &
                            (rsi_signal['Signal'] == 'Sell'))
 
     last_record = data.iloc[-1]
