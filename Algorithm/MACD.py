@@ -8,6 +8,7 @@ def calculate_macd(original_df):
     window = int(BARS)
 
     df['SMA'] = df['Close'].rolling(window=window).mean()
+
     df['MA_5'] = df['Close'].rolling(window=7).mean()
     # Calculate Short-term Exponential Moving Average (EMA)
     df['short_ema'] = df['Close'].ewm(span=12, adjust=False).mean()

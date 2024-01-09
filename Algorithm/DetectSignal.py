@@ -3,6 +3,7 @@ import pandas as pd
 
 from Algorithm.HeikenAshi import calculate_and_detect_ha_signal
 from Algorithm.MACD import calculate_and_detect_macd_signal
+from Algorithm.BB import calculate_and_detect_bollinger_bands
 from Common.Utils.GlobalConfig import BARS, ALLOW_ONCE_TIME_ORDER
 from Common.Utils.Redis import redis_manager
 
@@ -10,19 +11,21 @@ from Common.Utils.Redis import redis_manager
 def detect_signal(symbol, data):
     macd_signal = calculate_and_detect_macd_signal(data)
     ha_signal = calculate_and_detect_ha_signal(data)
+    bb_signal = calculate_and_detect_bollinger_bands(data)
+
     pd.set_option('display.max_columns', None)
 
     data['Buy_Signal'] = ((ha_signal['Signal'] == 'Buy') &
                           (ha_signal['Trend'] == 'Upward') &
                           (ha_signal['Strength'] == 'Increasing') &
-                          (macd_signal['MACD'] > macd_signal['Signal_Line']) &
-                          (macd_signal['Close'] > macd_signal['SMA']))
+                          (macd_signal['Signal'] == 'Buy') &
+                          (bb_signal['Signal'] == 'Buy'))
 
     data['Sell_Signal'] = ((ha_signal['Signal'] == 'Sell') &
                            (ha_signal['Trend'] == 'Downward') &
                            (ha_signal['Strength'] == 'Increasing') &
-                           (macd_signal['MACD'] < macd_signal['Signal_Line']) &
-                           (macd_signal['Close'] < macd_signal['SMA']))
+                           (macd_signal['Signal'] == 'Sell') &
+                           (bb_signal['Signal'] == 'Sell'))
 
     last_record = data.iloc[-1]
     if (last_record['Buy_Signal'] == True or last_record['Sell_Signal'] == True):
