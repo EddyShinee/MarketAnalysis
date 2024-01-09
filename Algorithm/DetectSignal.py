@@ -18,8 +18,18 @@ def detect_signal(symbol, data):
 
     pd.set_option('display.max_columns', None)
     # print(ha_signal['Signal'])
-    print(bb_signal['Signal'])
-    print(rsi_signal['Signal'])
+    # print(bb_signal['Signal'])
+    # print(rsi_signal['Signal'])
+    detect = pd.DataFrame()
+    detect['HA_Signal'] = ha_signal['Signal']
+    detect['HA_Trend'] = ha_signal['Trend']
+    detect['HA_Strength'] = ha_signal['Strength']
+    detect['MACD_Signal'] = macd_signal['Signal']
+    detect['BB_Signal'] = bb_signal['Signal']
+    detect['RSI_Signal'] = rsi_signal['Signal']
+
+    print(detect)
+
 
     data['Buy_Signal'] = ((ha_signal['Signal'] == 'Buy') &
                           (ha_signal['Trend'] == 'Upward') &
