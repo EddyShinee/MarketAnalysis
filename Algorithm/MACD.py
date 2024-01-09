@@ -23,12 +23,17 @@ def calculate_macd(original_df):
 
 
 def detect_macd(df):
-    # Implement your logic to detect signals
-    # For example, let's just mark 'Buy' when MACD crosses above Signal Line
     df['Signal'] = 'Hold'
-    df.loc[df['MACD'] > df['Signal_Line'], 'Signal'] = 'Buy'
-    df.loc[df['MACD'] < df['Signal_Line'], 'Signal'] = 'Sell'
+    # Loop through the DataFrame to find crossovers
+    for i in range(1, len(df)):
+        # Check if the MACD crosses above the Signal Line
+        if df['MACD'].iloc[i] > df['Signal_Line'].iloc[i] and df['MACD'].iloc[i - 1] <= df['Signal_Line'].iloc[i - 1]:
+            df.at[i, 'Signal'] = 'Buy'
+        # Check if the MACD crosses below the Signal Line
+        elif df['MACD'].iloc[i] < df['Signal_Line'].iloc[i] and df['MACD'].iloc[i - 1] >= df['Signal_Line'].iloc[i - 1]:
+            df.at[i, 'Signal'] = 'Sell'
     return df
+
 
 
 def calculate_and_detect_macd_signal(original_df):
