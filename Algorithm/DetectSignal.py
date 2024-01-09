@@ -17,6 +17,7 @@ def detect_signal(symbol, data):
 
 
     pd.set_option('display.max_columns', None)
+    print(bb_signal)
     # print(ha_signal['Signal'])
     # print(bb_signal['Signal'])
     # print(rsi_signal['Signal'])
@@ -28,7 +29,7 @@ def detect_signal(symbol, data):
     detect['BB_Signal'] = bb_signal['Signal']
     detect['RSI_Signal'] = rsi_signal['Signal']
 
-    print(detect)
+    # print(detect)
 
 
     data['Buy_Signal'] = ((ha_signal['Signal'] == 'Buy') &
