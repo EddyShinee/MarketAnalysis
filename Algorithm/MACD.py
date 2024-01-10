@@ -5,7 +5,7 @@ def calculate_macd(original_df):
         raise ValueError("DataFrame must contain 'Close' column")
 
     df = original_df.copy()
-    window = int(BARS)
+    window = 7
 
     df['SMA'] = df['Close'].rolling(window=window).mean()
 

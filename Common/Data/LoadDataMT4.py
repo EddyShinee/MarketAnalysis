@@ -32,7 +32,7 @@ class LoadDataFromMT4:
 
     def load_data_mt4(self):
         token = self.get_token()
-        print("Token: " + token)
+        print(f"Token: {token}")
         now = datetime.now()
         formatted_now = now.strftime("%Y-%m-%dT%H:%M:%S")
         url = self.base_url + self.api_get_symbols
