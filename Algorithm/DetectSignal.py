@@ -3,9 +3,8 @@ import pandas as pd
 
 from Algorithm.HeikenAshi import calculate_and_detect_ha_signal
 from Algorithm.MACD import calculate_and_detect_macd_signal
-from Algorithm.BB import calculate_and_detect_bollinger_bands
 from Algorithm.RSI import calculate_and_detect_rsi
-from Common.Utils.GlobalConfig import BARS, ALLOW_ONCE_TIME_ORDER
+from Common.Utils.GlobalConfig import ALLOW_ONCE_TIME_ORDER
 from Common.Utils.Redis import redis_manager
 
 
@@ -14,7 +13,6 @@ def detect_signal(symbol, data):
     ha_signal = calculate_and_detect_ha_signal(data)
     # bb_signal = calculate_and_detect_bollinger_bands(data)
     rsi_signal = calculate_and_detect_rsi(data)
-
 
     pd.set_option('display.max_columns', None)
     # print(bb_signal)
@@ -30,22 +28,21 @@ def detect_signal(symbol, data):
     detect['RSI_Signal'] = rsi_signal['Signal']
     print(detect)
 
-
     data['Sell_Signal'] = ((ha_signal['Signal'] == 'Buy') &
-                          (ha_signal['Trend'] == 'Upward') &
-                          (ha_signal['Strength'] == 'Changing') &
-                          (macd_signal['Signal'] == 'Buy')
-                          # (bb_signal['Signal'] == 'Buy') &
-                          # (rsi_signal['Signal'] == 'Buy')
-                          )
+                           (ha_signal['Trend'] == 'Upward') &
+                           (ha_signal['Strength'] == 'Changing') &
+                           (macd_signal['Signal'] == 'Buy')
+                           # (bb_signal['Signal'] == 'Buy') &
+                           # (rsi_signal['Signal'] == 'Buy')
+                           )
 
     data['Buy_Signal'] = ((ha_signal['Signal'] == 'Sell') &
-                           (ha_signal['Trend'] == 'Downward') &
-                           (ha_signal['Strength'] == 'Changing') &
-                           (macd_signal['Signal'] == 'Sell')
-                           # (bb_signal['Signal'] == 'Sell') &
-                           # (rsi_signal['Signal'] == 'Sell')
-                           )
+                          (ha_signal['Trend'] == 'Downward') &
+                          (ha_signal['Strength'] == 'Changing') &
+                          (macd_signal['Signal'] == 'Sell')
+                          # (bb_signal['Signal'] == 'Sell') &
+                          # (rsi_signal['Signal'] == 'Sell')
+                          )
 
     last_record = data.iloc[-1]
     if (last_record['Buy_Signal'] == True or last_record['Sell_Signal'] == True):

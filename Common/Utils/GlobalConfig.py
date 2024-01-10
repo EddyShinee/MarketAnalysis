@@ -64,10 +64,11 @@ class GlobalConfig:
         return self.config.get('DEFAULT', 'once_time_order', fallback=True)
 
     def get_order_send(self):
-        return self.config.get('api_orders','order_send', fallback=True )
+        return self.config.get('api_orders', 'order_send', fallback=True)
 
     def get_pips(self):
         return self.config.get('order_config', 'pips', fallback=None)
+
 
 # Sử dụng GlobalConfig
 try:
@@ -78,7 +79,7 @@ try:
     LOG_PATH = config.get_log_path()
     API_PING = config.get_ping()
 
-    #Connect
+    # Connect
     API_CONNECT = config.get_api_connect()
     USER = config.get_user()
     PASSWORD = config.get_password()
@@ -100,7 +101,7 @@ try:
     # Order
     ALLOW_ONCE_TIME_ORDER = config.get_once_time_order()
     ORDER_SEND = config.get_order_send()
-    PIPS= config.get_pips()
+    PIPS = config.get_pips()
 
     if not BASE_API_URL or not LOG_PATH:
         raise ValueError("Essential configuration data is missing.")

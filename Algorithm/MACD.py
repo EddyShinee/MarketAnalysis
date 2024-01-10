@@ -1,5 +1,3 @@
-from Common.Utils.GlobalConfig import BARS
-
 def calculate_macd(original_df):
     if not all(field in original_df.columns for field in ['Close']):
         raise ValueError("DataFrame must contain 'Close' column")
@@ -33,7 +31,6 @@ def detect_macd(df):
         elif df['MACD'].iloc[i] < df['Signal_Line'].iloc[i] and df['MACD'].iloc[i - 1] >= df['Signal_Line'].iloc[i - 1]:
             df.at[i, 'Signal'] = 'Sell'
     return df
-
 
 
 def calculate_and_detect_macd_signal(original_df):

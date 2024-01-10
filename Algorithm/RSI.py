@@ -1,5 +1,3 @@
-import pandas as pd
-
 def calculate_rsi(dataframe, window=7):
     """
     Calculate the Relative Strength Index (RSI).
@@ -24,6 +22,7 @@ def calculate_rsi(dataframe, window=7):
     df['RSI'] = 100 - (100 / (1 + rs))
 
     return df
+
 
 def detect_rsi_signals(dataframe, overbought_threshold=70, oversold_threshold=30):
     """
