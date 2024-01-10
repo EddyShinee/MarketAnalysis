@@ -1,5 +1,5 @@
+from datetime import datetime
 import time
-from datetime import datetime, time
 
 from Common.Data.LoadDataMT4 import LoadDataFromMT4
 
