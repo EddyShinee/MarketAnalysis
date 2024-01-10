@@ -31,7 +31,7 @@ def detect_signal(symbol, data):
     print(detect)
 
 
-    data['Buy_Signal'] = ((ha_signal['Signal'] == 'Buy') &
+    data['Sell_Signal'] = ((ha_signal['Signal'] == 'Buy') &
                           (ha_signal['Trend'] == 'Upward') &
                           (ha_signal['Strength'] == 'Changing') &
                           (macd_signal['Signal'] == 'Buy')
@@ -39,7 +39,7 @@ def detect_signal(symbol, data):
                           # (rsi_signal['Signal'] == 'Buy')
                           )
 
-    data['Sell_Signal'] = ((ha_signal['Signal'] == 'Sell') &
+    data['Buy_Signal'] = ((ha_signal['Signal'] == 'Sell') &
                            (ha_signal['Trend'] == 'Downward') &
                            (ha_signal['Strength'] == 'Changing') &
                            (macd_signal['Signal'] == 'Sell')
