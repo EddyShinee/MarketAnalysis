@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import talib
 
 # Assuming 'data' is a pandas DataFrame with columns: 'Open', 'High', 'Low', 'Close'
 
@@ -19,19 +20,24 @@ def calculate_kama(data, length, fastend=0.666, slowend=0.0645):
     data['KAMA'] = pd.Series(kama_values, index=close.index)
 
 def calculate_heiken_ashi(data, p):
-    data['HA_Open'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-    data['HA_High'] = np.maximum(data['High'], data['HA_Open'])
-    data['HA_Low'] = np.minimum(data['Low'], data['HA_Open'])
-    data['HA_Close'] = (data['Close'] + data['HA_Open']) / 2
+    Om = data['Open'].rolling(window=p).mean()
+    Hm = data['High'].rolling(window=p).mean()
+    Lm = data['Low'].rolling(window=p).mean()
+    Cm = data['Close'].rolling(window=p).mean()
+    vClose = (Om + Hm + Lm + Cm) / 4
+    vOpen = kama(vClose.shift(1), int(p/2))
+    vHigh = np.maximum(Hm, np.maximum(vClose, vOpen))
+    vLow = np.minimum(Lm, np.minimum(vClose, vOpen))
+    data['HA_Open'], data['HA_High'], data['HA_Low'], data['HA_Close'] = vOpen, vHigh, vLow, vClose
 
 def calculate_emas(data):
-    data['EMA3'] = data['Close'].ewm(span=3, min_periods=2).mean()
-    data['EMA30'] = data['Close'].ewm(span=30, min_periods=2).mean()
-    data['EMA60'] = data['Close'].ewm(span=60, min_periods=2).mean()
+    data['EMA3'] = talib.EMA(data['Close'], timeperiod=3)
+    data['EMA30'] = talib.EMA(data['Close'], timeperiod=30)
+    data['EMA60'] = talib.EMA(data['Close'], timeperiod=60)
 
 def generate_buy_sell_signals(data):
     long_signal = (data['HA_Low'] < data['EMA60']) & (data['HA_Low'].shift(1) > data['EMA60'].shift(1))
-    short_signal = (data['Close'] < data['EMA3']) & (data['Close'].shift(1) > data['EMA3'].shift(1))
+    short_signal = talib.CROSSUNDER(data['EMA3'], data['EMA30'])
     data['Long'] = long_signal
     data['Short'] = short_signal
 
