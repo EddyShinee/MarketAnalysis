@@ -27,7 +27,11 @@ def detect_signal(symbol, data):
     detect['MACD_Signal'] = macd_signal['Signal']
     # detect['BB_Signal'] = bb_signal['Signal']
     detect['RSI_Signal'] = rsi_signal['Signal']
-    print(detect)
+    transposed_data = detect.T
+
+    for column, values in transposed_data.items():
+        print(f'{column}: {values.tolist()}')
+    # print(vertical_df)
 
     # data['Sell_Signal'] = ((ha_signal['Signal'] == 'Buy') &
     #                        (ha_signal['Trend'] == 'Upward') &
