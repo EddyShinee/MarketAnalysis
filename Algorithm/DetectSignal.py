@@ -38,16 +38,16 @@ def detect_signal(symbol, data):
     #                        (ha_signal['Trend'] == 'Upward') &
     #                        (ha_signal['Strength'] == 'Changing') &
     #                        (macd_signal['Signal'] == 'Buy')
-                           # (bb_signal['Signal'] == 'Buy') &
-                           # (rsi_signal['Signal'] == 'Buy')
-                           # )
+    # (bb_signal['Signal'] == 'Buy') &
+    # (rsi_signal['Signal'] == 'Buy')
+    # )
     # data['Buy_Signal'] = ((ha_signal['Signal'] == 'Sell') &
     #                       (ha_signal['Trend'] == 'Downward') &
     #                       (ha_signal['Strength'] == 'Changing') &
     #                       (macd_signal['Signal'] == 'Sell')
-                          # (bb_signal['Signal'] == 'Sell') &
-                          # (rsi_signal['Signal'] == 'Sell')
-                          # )
+    # (bb_signal['Signal'] == 'Sell') &
+    # (rsi_signal['Signal'] == 'Sell')
+    # )
 
     data['Buy_Signal'] = ((macd_signal['Signal'] == 'Buy')
                           & (ha_signal['Signal'] == 'Buy')
@@ -56,8 +56,6 @@ def detect_signal(symbol, data):
     data['Sell_Signal'] = ((macd_signal['Signal'] == 'Sell')
                            & (ha_signal['Signal'] == 'Sell')
                            & (rsi_signal['Signal'] != 'Buy'))
-
-
 
     last_record = data.iloc[-1]
     if (last_record['Buy_Signal'] == True or last_record['Sell_Signal'] == True):
