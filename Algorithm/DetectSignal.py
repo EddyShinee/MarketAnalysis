@@ -50,11 +50,11 @@ def detect_signal(symbol, data):
 
     data['Buy_Signal'] = ((macd_signal['Signal'] == 'Buy')
                           & (ha_signal['Signal'] == 'Buy')
-                          & (rsi_signal['Signal'] == 'Buy'))
+                          & (rsi_signal['Signal'] != 'Sell'))
 
     data['Sell_Signal'] = ((macd_signal['Signal'] == 'Sell')
                            & (ha_signal['Signal'] == 'Sell')
-                           & (rsi_signal['Signal'] == 'Sell'))
+                           & (rsi_signal['Signal'] != 'Buy'))
 
 
 
