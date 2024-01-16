@@ -4,7 +4,7 @@ import time
 
 from Common.Data.LoadDataMT4 import LoadDataFromMT4
 
-run_minutes = [2, 17, 32, 47]
+run_minutes = [0, 15, 30, 45]
 
 
 # run_minutes = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
