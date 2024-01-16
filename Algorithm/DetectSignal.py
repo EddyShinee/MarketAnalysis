@@ -49,12 +49,14 @@ def detect_signal(symbol, data):
     # (rsi_signal['Signal'] == 'Sell')
     # )
 
-    data['Buy_Signal'] = ((macd_signal['Signal'] == 'Buy')
-                          & (ha_signal['Signal'] == 'Buy')
+    data['Buy_Signal'] = (
+            # (macd_signal['Signal'] == 'Buy')
+                          (ha_signal['Signal'] == 'Buy')
                           & (rsi_signal['Signal'] != 'Sell'))
 
-    data['Sell_Signal'] = ((macd_signal['Signal'] == 'Sell')
-                           & (ha_signal['Signal'] == 'Sell')
+    data['Sell_Signal'] = (
+            # (macd_signal['Signal'] == 'Sell')
+                           (ha_signal['Signal'] == 'Sell')
                            & (rsi_signal['Signal'] != 'Buy'))
 
     last_record = data.iloc[-1]
