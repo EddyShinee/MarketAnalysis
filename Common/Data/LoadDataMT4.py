@@ -70,6 +70,9 @@ class LoadDataFromMT4:
             print("System Error")
             return
         for currency_pair in response_data:
+            if currency_pair is None:
+                print(f"Re-run...")
+                return
             symbol = currency_pair['symbol']
             data = self.process_data(currency_pair)
             if data is None:
