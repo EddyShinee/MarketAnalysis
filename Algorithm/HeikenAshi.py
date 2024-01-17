@@ -39,4 +39,5 @@ def calculate_and_detect_ha_signal(data):
     calculate_heiken_ashi(data, 3)
     calculate_emas(data)
     generate_buy_sell_signals(data)
+    print(data)
     return data
