@@ -18,7 +18,7 @@ def detect_signal(symbol, data):
     ha_ic_signal = calculate_and_detect_heikenashi_ichimoku_signals(data)
 
 
-    pd.set_option('display.max_columns', None)
+    # pd.set_option('display.max_columns', None)
     # print(bb_signal)
     # print(ha_signal['Signal'])
     # print(bb_signal['Signal'])
