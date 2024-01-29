@@ -3,7 +3,7 @@ import logging
 import requests
 import time
 
-max_attempts = 5
+max_attempts = 50
 
 
 def make_get_request(url, params=None, headers=None, timeout=5, allow_redirects=True, verify=True):
